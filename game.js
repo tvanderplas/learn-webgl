@@ -66,8 +66,7 @@ var main=function() {
     function resize() {
         var width = gl.canvas.clientWidth;
         var height = gl.canvas.clientHeight;
-        if (gl.canvas.width != width ||
-            gl.canvas.height != height) {
+        if (gl.canvas.width != width || gl.canvas.height != height) {
             gl.canvas.width = width;
             gl.canvas.height = height;
         }
