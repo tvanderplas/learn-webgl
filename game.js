@@ -1,19 +1,12 @@
 
 var main=function() {
     var CANVAS = document.getElementById("game");
-    var fullscreen=function() {
-        try {
-            CANVAS.requestFullscreen();
-            CANVAS.requestPointerLock();
-        } catch (e) {
-            alert(e.toString());
-        }
-    };    
     var GL;
     try {
         GL = CANVAS.getContext("experimental-webgl", {antialias: true});
     } catch (e) {
         alert("You are not webgl compatible =[");
+        CANVAS.style.background = "red";
         return false;
     }
     var get_shader=function(source, type, typeString) {
@@ -70,7 +63,6 @@ var main=function() {
         new Uint16Array(triangle_faces),
         GL.STATIC_DRAW
     );
-
     var animate=function() {
         GL.viewport(0.0, 0.0, CANVAS.width, CANVAS.height);
         GL.clear(GL.COLOR_BUFFER_BIT);
@@ -85,4 +77,9 @@ var main=function() {
         window.requestAnimationFrame(animate);
     };
     animate();
+};
+var fullscreen=function() {
+    CANVAS = document.getElementById("game");
+    CANVAS.requestFullscreen();
+    CANVAS.requestPointerLock();
 };
