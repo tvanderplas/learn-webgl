@@ -63,8 +63,18 @@ var main=function() {
         new Uint16Array(triangle_faces),
         gl.STATIC_DRAW
     );
+    function resize() {
+        var width = gl.canvas.clientWidth;
+        var height = gl.canvas.clientHeight;
+        if (gl.canvas.width != width ||
+            gl.canvas.height != height) {
+            gl.canvas.width = width;
+            gl.canvas.height = height;
+        }
+    };    
     var animate=function() {
-        gl.viewport(0.0, 0.0, canvas.width, canvas.height);
+        resize();
+        gl.viewport(0.0, 0.0, gl.drawingBufferWidth, gl.drawingBufferHeight);
         gl.clear(gl.COLOR_BUFFER_BIT);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, TRIANGLE_VERTEX);
@@ -74,7 +84,7 @@ var main=function() {
         gl.drawElements(gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 0);
 
         gl.flush();
-        window.requestAnimationFrame(animate);
+        requestAnimationFrame(animate);
     };
     animate();
 };
