@@ -3,7 +3,35 @@
 <html>
   <head>
     <meta charset='utf-8'/>
+    <link href="game.css" rel="stylesheet" />
+    <script type="text/javascript" src="game.js"></script>
+    <script id="simple_vs" type="text/GLSL">
+        attribute vec2 position;
+        attribute vec3 color;
+        varying vec3 vColor;
+        void main(void) {
+            gl_Position = vec4(position, 0., 1.);
+            vColor = color;
+        }
+    </script>
+    <script id="simple_fs" type="text/GLSL">
+        precision mediump float;
+        varying vec3 vColor;
+        void main(void) {
+            gl_FragColor = vec4(vColor, 1.);
+        }
+    </script>
   </head>
-  <body style='margin:0px'>
+  <body onload="main()">
+    <div class="container">
+      <h1>Dowdy Miner</h1>
+      <div class="center-column">
+        <canvas id='game'>
+        </canvas>
+        <button title="Enter fullscreen" class="fullscreen_btn" onclick="fullscreen()">
+          <img src="enlarge.svg">
+        </button>
+      </div>
+    </div>
   </body>
 </html>

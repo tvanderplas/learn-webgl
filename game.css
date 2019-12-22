@@ -1,0 +1,49 @@
+
+html, body {
+    margin: 0px;
+    height: 100%;
+}
+.container {
+    text-align: center;
+    background-color: black;
+    height: 100%;
+}
+h1 {
+    color: darkgray;
+    padding: .5em;
+    border: 0;
+    margin: 0;
+}
+.center-column {
+    margin: auto;
+    width: 800px;
+}
+canvas#game {
+    padding: 0;
+    margin: auto;
+    display: block;
+    background-color: black;
+    width: 800px;
+    height: 600px;
+}
+.fullscreen_btn {
+    opacity: .4;
+    position: relative;
+    padding: 0;
+    border: 0;
+    margin: 0px;
+    left: 95%;
+    width: 5%;
+    height: auto;
+    display: block;
+    transition: opacity 0.2s;
+    background: none;
+    cursor: pointer;
+    z-index: 10;
+}
+.fullscreen_btn:hover {
+    opacity: 1;
+}
+img {
+    max-width: 100%;
+}
