@@ -79,7 +79,7 @@ var main=function() {
     animate();
 };
 var fullscreen=function() {
-    CANVAS = document.getElementById("game");
-    CANVAS.requestFullscreen();
-    CANVAS.requestPointerLock();
+    canvas = document.getElementById("game");
+    canvas.requestFullscreen();
+    canvas.requestPointerLock();
 };
