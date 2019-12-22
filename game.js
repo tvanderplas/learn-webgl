@@ -70,7 +70,7 @@ var main=function() {
             gl.canvas.width = width;
             gl.canvas.height = height;
         }
-    };    
+    };
     var animate=function() {
         resize();
         gl.viewport(0.0, 0.0, gl.drawingBufferWidth, gl.drawingBufferHeight);
