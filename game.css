@@ -39,7 +39,6 @@ canvas#game {
     transition: opacity 0.2s;
     background: none;
     cursor: pointer;
-    z-index: 10;
 }
 .fullscreen_btn:hover {
     opacity: 1;
