@@ -3,7 +3,7 @@ var main=function() {
     var canvas = document.getElementById("game");
     var gl;
     try {
-        gl = canvas.getContext("experimental-webgl", {antialias: true});
+        gl = canvas.getContext("webgl", {antialias: true});
     } catch (e) {
         alert("You are not webgl compatible =[");
         canvas.style.background = "red";
