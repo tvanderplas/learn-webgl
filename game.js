@@ -1,4 +1,10 @@
 
+var fullscreen=function() {
+    canvas = document.getElementById("game");
+    canvas.requestFullscreen();
+    canvas.requestPointerLock();
+};
+
 function loadTextFile(url) {
     return fetch(url).then(response => response.text());
 }
@@ -98,9 +104,4 @@ async function main() {
         requestAnimationFrame(animate);
     };
     animate();
-};
-var fullscreen=function() {
-    canvas = document.getElementById("game");
-    canvas.requestFullscreen();
-    canvas.requestPointerLock();
 };
