@@ -1,5 +1,16 @@
 
-var main=function() {
+function loadTextFile(url) {
+    return fetch(url).then(response => response.text());
+}
+const urls = [
+    './simple.vs',
+    './simple.fs',
+    // './sky.obj',
+    // './sky.mtl',
+    // './sky.png',
+];
+
+async function main() {
     var canvas = document.getElementById("game");
     var gl;
     try {
@@ -19,8 +30,9 @@ var main=function() {
         }
         return shader;
     };
-    var simple_vs = document.getElementById('simple_vs').innerHTML;
-    var simple_fs = document.getElementById('simple_fs').innerHTML;
+    const files = await Promise.all(urls.map(loadTextFile));
+    var simple_vs = files[0];
+    var simple_fs = files[1];
     var vertex_shader = get_shader(simple_vs, gl.VERTEX_SHADER, "VERTEX");
     var fragment_shader = get_shader(simple_fs, gl.FRAGMENT_SHADER, "FRAGMENT");
     var SHADER_PROGRAM = gl.createProgram();

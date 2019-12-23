@@ -5,22 +5,7 @@
     <meta charset='utf-8'/>
     <link href="game.css" rel="stylesheet" />
     <script type="text/javascript" src="game.js"></script>
-    <script id="simple_vs" type="text/GLSL">
-        attribute vec2 position;
-        attribute vec3 color;
-        varying vec3 vColor;
-        void main(void) {
-            gl_Position = vec4(position, 0., 1.);
-            vColor = color;
-        }
-    </script>
-    <script id="simple_fs" type="text/GLSL">
-        precision mediump float;
-        varying vec3 vColor;
-        void main(void) {
-            gl_FragColor = vec4(vColor, 1.);
-        }
-    </script>
+    <script id="simple_vs" type="text/GLSL" src='https://tvanderplas.github.io/learn-webgl/simple.vs'></script>
   </head>
   <body onload="main()">
     <div class="container">
