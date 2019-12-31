@@ -9,11 +9,11 @@ function loadTextFile(url) {
     return fetch(url).then(response => response.text())
 }
 const urls = [
-    './simple.vs',
-    './simple.fs',
-    // './sky.obj',
-    // './sky.mtl',
-    // './sky.png',
+    './shaders/simple.vs',
+    './shaders/simple.fs',
+    // './assets/sky.obj',
+    // './assets/sky.mtl',
+    // './assets/sky.png',
 ]
 
 async function main() {
