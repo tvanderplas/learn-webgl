@@ -112,4 +112,5 @@ class Game {
         animate()
     }
 }
-export let game = new Game()
+let game = new Game()
+export default game
