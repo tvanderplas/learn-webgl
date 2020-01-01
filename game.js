@@ -1,10 +1,4 @@
 
-let fullscreen=function() {
-    canvas = document.getElementById("game")
-    canvas.requestFullscreen()
-    canvas.requestPointerLock()
-}
-
 function loadTextFile(url) {
     return fetch(url).then(response => response.text())
 }
@@ -16,92 +10,103 @@ const urls = [
     // './assets/sky.png',
 ]
 
-async function main() {
-    let canvas = document.getElementById("game")
-    let gl
-    try {
-        gl = canvas.getContext("webgl", {antialias: true})
-    } catch (e) {
-        alert("You are not webgl compatible =[")
-        canvas.style.background = "red"
-        return false
+class Game {
+    constructor() {
+        this.canvas = document.getElementById("game")
+        document.getElementsByClassName('fullscreen_btn')[0]
+            .addEventListener('click', this.fullscreen.bind(this))
     }
-    let get_shader=function(source, type, typeString) {
-        let shader = gl.createShader(type)
-        gl.shaderSource(shader, source)
-        gl.compileShader(shader)
-        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-            alert("Error in " + typeString + " shader: " + gl.getShaderInfoLog(shader))
+    fullscreen() {
+        this.canvas.requestFullscreen()
+        this.canvas.requestPointerLock()
+    }
+    async play() {
+        let gl
+        try {
+            gl = this.canvas.getContext("webgl", {antialias: true})
+        } catch (e) {
+            alert("You are not webgl compatible =[")
+            this.canvas.style.background = "red"
             return false
         }
-        return shader
-    }
-    const files = await Promise.all(urls.map(loadTextFile))
-    let simple_vs = files[0]
-    let simple_fs = files[1]
-    let vertex_shader = get_shader(simple_vs, gl.VERTEX_SHADER, "VERTEX")
-    let fragment_shader = get_shader(simple_fs, gl.FRAGMENT_SHADER, "FRAGMENT")
-    let SHADER_PROGRAM = gl.createProgram()
-    gl.attachShader(SHADER_PROGRAM, vertex_shader)
-    gl.attachShader(SHADER_PROGRAM, fragment_shader)
-    gl.linkProgram(SHADER_PROGRAM)
-    gl.useProgram(SHADER_PROGRAM)
-
-    let _color = gl.getAttribLocation(SHADER_PROGRAM, "color")
-    let _position = gl.getAttribLocation(SHADER_PROGRAM, "position")
-    gl.enableVertexAttribArray(_color)
-    gl.enableVertexAttribArray(_position)
-
-    let triangle_vertex = [
-        -1, -1,
-        0, 1, 1,
-        1, -1,
-        0, 0, 0,
-        1, 1,
-        1, 1, 0,
-        -1, 1,
-        1, 1, 1
-    ]
-    let TRIANGLE_VERTEX = gl.createBuffer()
-    gl.bindBuffer(gl.ARRAY_BUFFER, TRIANGLE_VERTEX)
-    gl.bufferData(
-        gl.ARRAY_BUFFER,
-        new Float32Array(triangle_vertex),
-        gl.STATIC_DRAW
-    )
-
-    let triangle_faces = [
-        0, 1, 2,
-        0, 2, 3
-    ]
-    let TRIANGLE_FACES = gl.createBuffer()
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, TRIANGLE_FACES)
-    gl.bufferData(
-        gl.ELEMENT_ARRAY_BUFFER,
-        new Uint16Array(triangle_faces),
-        gl.STATIC_DRAW
-    )
-    function resize() {
-        let width = gl.canvas.clientWidth
-        let height = gl.canvas.clientHeight
-        if (gl.canvas.width != width || gl.canvas.height != height) {
-            gl.canvas.width = width
-            gl.canvas.height = height
+        let get_shader=function(source, type, typeString) {
+            let shader = gl.createShader(type)
+            gl.shaderSource(shader, source)
+            gl.compileShader(shader)
+            if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+                alert("Error in " + typeString + " shader: " + gl.getShaderInfoLog(shader))
+                return false
+            }
+            return shader
         }
-    }
-    let animate=function() {
-        resize()
-        gl.viewport(0.0, 0.0, gl.drawingBufferWidth, gl.drawingBufferHeight)
-        gl.clear(gl.COLOR_BUFFER_BIT)
+        const files = await Promise.all(urls.map(loadTextFile))
+        let simple_vs = files[0]
+        let simple_fs = files[1]
+        let vertex_shader = get_shader(simple_vs, gl.VERTEX_SHADER, "VERTEX")
+        let fragment_shader = get_shader(simple_fs, gl.FRAGMENT_SHADER, "FRAGMENT")
+        let SHADER_PROGRAM = gl.createProgram()
+        gl.attachShader(SHADER_PROGRAM, vertex_shader)
+        gl.attachShader(SHADER_PROGRAM, fragment_shader)
+        gl.linkProgram(SHADER_PROGRAM)
+        gl.useProgram(SHADER_PROGRAM)
 
+        let _color = gl.getAttribLocation(SHADER_PROGRAM, "color")
+        let _position = gl.getAttribLocation(SHADER_PROGRAM, "position")
+        gl.enableVertexAttribArray(_color)
+        gl.enableVertexAttribArray(_position)
+
+        let triangle_vertex = [
+            -1, -1,
+            0, 1, 1,
+            1, -1,
+            0, 0, 0,
+            1, 1,
+            1, 1, 0,
+            -1, 1,
+            1, 1, 1
+        ]
+        let TRIANGLE_VERTEX = gl.createBuffer()
         gl.bindBuffer(gl.ARRAY_BUFFER, TRIANGLE_VERTEX)
-        gl.vertexAttribPointer(_position, 2, gl.FLOAT, false, 4*(2+3), 0)
-        gl.vertexAttribPointer(_color, 3, gl.FLOAT, false, 4*(2+3), 2*4)
-        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, TRIANGLE_FACES)
-        gl.drawElements(gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 0)
+        gl.bufferData(
+            gl.ARRAY_BUFFER,
+            new Float32Array(triangle_vertex),
+            gl.STATIC_DRAW
+        )
 
-        gl.flush()
-        requestAnimationFrame(animate)
+        let triangle_faces = [
+            0, 1, 2,
+            0, 2, 3
+        ]
+        let TRIANGLE_FACES = gl.createBuffer()
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, TRIANGLE_FACES)
+        gl.bufferData(
+            gl.ELEMENT_ARRAY_BUFFER,
+            new Uint16Array(triangle_faces),
+            gl.STATIC_DRAW
+        )
+        function resize() {
+            let width = gl.canvas.clientWidth
+            let height = gl.canvas.clientHeight
+            if (gl.canvas.width != width || gl.canvas.height != height) {
+                gl.canvas.width = width
+                gl.canvas.height = height
+            }
+        }
+        let animate=function() {
+            resize()
+            gl.viewport(0.0, 0.0, gl.drawingBufferWidth, gl.drawingBufferHeight)
+            gl.clear(gl.COLOR_BUFFER_BIT)
+
+            gl.bindBuffer(gl.ARRAY_BUFFER, TRIANGLE_VERTEX)
+            gl.vertexAttribPointer(_position, 2, gl.FLOAT, false, 4*(2+3), 0)
+            gl.vertexAttribPointer(_color, 3, gl.FLOAT, false, 4*(2+3), 2*4)
+            gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, TRIANGLE_FACES)
+            gl.drawElements(gl.TRIANGLES, 6, gl.UNSIGNED_SHORT, 0)
+
+            gl.flush()
+            requestAnimationFrame(animate)
+        }
+        animate()
     }
-    animate()
 }
+export let game = new Game()
