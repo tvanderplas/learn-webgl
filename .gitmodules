@@ -1,0 +1,3 @@
+[submodule "wavefront-obj-parser"]
+	path = wavefront-obj-parser
+	url = https://github.com/chinedufn/wavefront-obj-parser.git
