@@ -1,0 +1,3 @@
+[submodule "wavefront-obj-parser"]
+	path = wavefront-obj-parser
+	url = https://github.com/tvanderplas/wavefront-obj-parser.git
