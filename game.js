@@ -1,11 +1,13 @@
 
+import parse_obj from './wavefront-obj-parser/src/wavefront-obj-parser.js'
+
 function loadTextFile(url) {
     return fetch(url).then(response => response.text())
 }
 const urls = [
     './shaders/simple.vs',
     './shaders/simple.fs',
-    // './assets/sky.obj',
+    './assets/sky.obj',
     // './assets/sky.mtl',
     // './assets/sky.png',
 ]
@@ -55,6 +57,7 @@ class Game {
         gl.enableVertexAttribArray(_color)
         gl.enableVertexAttribArray(_position)
 
+        console.log(parse_obj(files[2]).vertexPositions)
         let triangle_vertex = [
             -1, -1,
             0, 1, 1,
